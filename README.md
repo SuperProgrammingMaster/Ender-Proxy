@@ -4,9 +4,9 @@
 
 **🇰🇷 한국어로 보기: [README.ko.md](README.ko.md)**
 
-Ender-Proxy is a Minecraft Bedrock Edition (MITM) proxy client. It sits between your Minecraft client and a joined Xbox Live session (a friend's world or your own Realm), forwards packets transparently, and adds an in-game command system and HUD with movement, combat, world, and visual utility modules, plus an optional bridge for external tools.
+Ender-Proxy is a Minecraft Bedrock Edition (MITM) proxy client, for **Windows and Android**. It sits between your Minecraft client and a joined Xbox Live session (a friend's world or your own Realm), forwards packets transparently, and adds an in-game command system and HUD with movement, combat, world, and visual utility modules, plus an optional bridge for external tools.
 
-Everything is driven from in-game chat using a `.` command prefix (for example `/.fly on`) or from the proxy's own console window.
+Everything is driven from in-game chat using a `.` command prefix (for example `/.fly on`) or from the proxy's own console window (on Android, a plain console screen inside the app, no Termux or separate runtime needed).
 
 > **Disclaimer:** Ender-Proxy works against **server-authoritative movement** (mandatory on current Bedrock Dedicated Servers and Xbox Live friend sessions). It steers the server's own simulation of the player instead of teleporting the client. Some modules (combat automation, movement assistance, world manipulation) may violate the rules of servers or Realms you don't own. Only use it on worlds you own, or where every player involved has agreed to it, and always at your own risk.
 
@@ -14,9 +14,11 @@ Everything is driven from in-game chat using a `.` command prefix (for example `
 
 - [Features](#features)
 - [Requirements](#requirements)
-- [Before You Start: Windows Loopback Exemption](#before-you-start-windows-loopback-exemption)
 - [Download & Install](#download--install)
-- [Beginner's Step-by-Step Guide](#beginners-step-by-step-guide)
+- [Before You Start: Windows Loopback Exemption](#before-you-start-windows-loopback-exemption)
+- [Windows: Step-by-Step Guide](#windows-step-by-step-guide)
+- [Android: Step-by-Step Guide](#android-step-by-step-guide)
+- [Android Notes](#android-notes)
 - [Command-Line Flags](#command-line-flags)
 - [Commands](#commands)
 - [Optional Components](#optional-components)
@@ -35,17 +37,46 @@ Everything is driven from in-game chat using a `.` command prefix (for example `
 - **Chat tools**: spoofed and looped chat (`say`, `spam`, `faketext`).
 - **External tool bridge**: a vanilla-`wsserver`-compatible WebSocket endpoint (`-ws` flag) so outside tools can attach with no in-game command needed, plus a built-in relay for `wssay` / `wsspam` / `whisperwspam` that needs no extra runtime to be installed.
 - **Custom local resource pack** for the in-game HUD, applied automatically. It never touches the server's own resource packs.
+- **Android app**: the same proxy, packaged as a single sideloadable APK with a plain console screen standing in for the Windows console window. No Termux, no separate Android build of Node.js or anything else to install.
 
 ## Requirements
+
+### Windows
 
 - Windows 10/11, 64-bit.
 - A Microsoft/Xbox Live account signed in to Xbox Live, with the target world or Realm already in your friends list or owned by you. Ender-Proxy discovers sessions through Xbox Live, it does not dial arbitrary server IPs.
 - FFmpeg is bundled in the release zip (`bin\ffmpeg.exe`) for the `/.video` module, so there is nothing extra to install for that.
 - Nothing else to install. `wssay` / `wsspam` / `whisperwspam` are handled entirely inside `enderproxy.exe`, no Node.js or any other runtime needed.
 
+### Android
+
+- Android 8.0 (API 26) or newer, 64-bit ARM (`arm64-v8a`). That's effectively every real Android phone from the last several years; the handful of 32-bit-only devices still out there aren't supported yet.
+- The same Microsoft/Xbox Live account requirement as Windows, above.
+- Nothing to install beyond the one APK. FFmpeg (and so `/.video`) isn't available on Android yet, everything else is.
+
+## Download & Install
+
+Both platforms' files are on the same [Releases](../../releases) page.
+
+### Windows
+
+1. Grab the latest `Ender-Proxy-<version>-win64.zip`.
+2. Extract it anywhere (avoid `C:\Program Files`, which Windows locks down for writing).
+3. Run `enderproxy.exe`.
+
+The extracted folder must keep its structure. `enderproxy.exe` reads `resource_packs/`, `skins/`, and `videos/` as **relative** paths next to itself, so don't move the exe out of its folder on its own.
+
+### Android
+
+1. Grab the latest `Ender-Proxy-<version>-android-arm64.apk`.
+2. Open it from your file manager or downloads notification. Android will ask to allow installs from that source the first time, allow it.
+3. Open the app. Unlike Windows, there's no separate setup step needed first, no loopback exemption command to run. Just open it.
+
+The APK bundles the local HUD resource pack and default skins already, they're unpacked automatically the first time the app runs.
+
 ## Before You Start: Windows Loopback Exemption
 
-Minecraft Bedrock (and Minecraft Preview) are UWP apps, and Windows blocks UWP apps from connecting to `127.0.0.1` (localhost) by default. Since Ender-Proxy runs locally and your Minecraft client connects *through* it, you need to lift that restriction once per PC before your first run.
+Minecraft Bedrock (and Minecraft Preview) are UWP apps, and Windows blocks UWP apps from connecting to `127.0.0.1` (localhost) by default. Since Ender-Proxy runs locally and your Minecraft client connects *through* it, you need to lift that restriction once per PC before your first run. (This step is Windows-only. Android doesn't isolate loopback between apps the same way, so there's nothing equivalent to do there.)
 
 1. Open **PowerShell as Administrator** (right-click the Start button, choose "Terminal (Admin)" or "Windows PowerShell (Admin)").
 2. Run the command for your edition:
@@ -72,15 +103,7 @@ CheckNetIsolation LoopbackExempt -d -n="Microsoft.MinecraftUWP_8wekyb3d8bbwe"
 
 This is a one-time, standard Windows setting used by any local Bedrock proxy or server tool. It does not modify Ender-Proxy or Minecraft itself, and removing the exemption later has no side effects.
 
-## Download & Install
-
-1. Grab the latest `Ender-Proxy-<version>-win64.zip` from the [Releases](../../releases) page.
-2. Extract it anywhere (avoid `C:\Program Files`, which Windows locks down for writing).
-3. Run `enderproxy.exe`.
-
-The extracted folder must keep its structure. `enderproxy.exe` reads `resource_packs/`, `skins/`, and `videos/` as **relative** paths next to itself, so don't move the exe out of its folder on its own.
-
-## Beginner's Step-by-Step Guide
+## Windows: Step-by-Step Guide
 
 This section walks through everything from a completely fresh download to your first working connection. If you've never used a tool like this before, start here.
 
@@ -141,7 +164,59 @@ which opens the in-game HUD menu. From there, explore the [Commands](#commands) 
 | `wssay` / `wsspam` / `whisperwspam` don't show a message in chat | Give it a few seconds after connecting, the real client needs to finish its own handshake first. If it still doesn't work, rejoin the world so Ender-Proxy can reconnect the bridge. |
 | Login link/code doesn't work | Make sure you're signing in with the same Microsoft account that owns your Minecraft/Xbox Live profile, and that your PC's clock is set correctly (a wrong system clock breaks Microsoft login). |
 
+## Android: Step-by-Step Guide
+
+Same idea as the Windows guide above, just through the app instead of a console window. There's no loopback exemption step on Android, that's a Windows-only requirement.
+
+### Step 1: Install the APK
+
+Download `Ender-Proxy-<version>-android-arm64.apk` from [Releases](../../releases) onto your phone and open it. Android will prompt to allow installing from that source the first time (Settings → allow), then installs normally.
+
+### Step 2: Open the app
+
+Tap the Ender-Proxy icon. It opens straight into a plain black console screen and starts the proxy immediately, no separate "start" step. If a notification permission prompt appears, allow it, that's just for the persistent "Ender-Proxy running" notification.
+
+### Step 3: Sign in with Xbox Live
+
+Same as Windows: a login link and short code appear on screen. Open the link in your phone's browser, enter the code, sign in with your Minecraft/Xbox Live Microsoft account, then switch back to the Ender-Proxy app.
+
+### Step 4: Pick a session
+
+A list of your Xbox Live friends' active Bedrock sessions appears. Type the number into the text field at the bottom of the screen and tap **Send**, the same as typing into the Windows console.
+
+### Step 5: Connect Minecraft to the proxy
+
+Open Minecraft Bedrock (same phone), go to **Play → Servers**, and add a server pointing at `127.0.0.1` port `19132`. Join it, same as the Windows guide.
+
+### Step 6: Try your first command
+
+In Minecraft chat, type `/.help`, then try `/.pos` or `/.menu`. See the [Commands](#commands) table below for the full list.
+
+### Step 7: Stopping it
+
+Closing the app screen, switching to Minecraft, or even swiping Ender-Proxy out of your recent apps does **not** stop it, that's intentional, so it survives while you're playing. To actually stop it, either tap **Stop** in the app, or tap **Stop** on the persistent notification. See [Android Notes](#android-notes) below.
+
+### Troubleshooting
+
+| Problem | Likely fix |
+|---|---|
+| Can't install the APK | Make sure you allowed "install from this source" when prompted. On some phones this is under Settings → Apps → Special access → Install unknown apps, per app (browser or file manager). |
+| No friend sessions are listed | Same as Windows: ask your friend to open their world to "Friends" or "Friends of Friends", confirm you're both online on Xbox Live. |
+| Minecraft can't connect to `127.0.0.1:19132` | Make sure the Ender-Proxy app (or its notification) shows it's still running, and that you typed the port correctly. Unlike Windows there's no loopback exemption to troubleshoot here. |
+| Reopened the app and the screen is blank | Give it a second, it replays everything printed so far. If it's still blank, the proxy may have been stopped, check for the persistent notification. |
+| `/.video` does nothing | Expected for now, FFmpeg isn't bundled for Android yet. |
+
+## Android Notes
+
+- **Stopping the proxy**: it runs as a background (foreground) service on purpose, so it isn't killed while you're alt-tabbed into Minecraft. That means there's no implicit "close the app to stop it" gesture. Use the **Stop** button in the app, or the **Stop** action on its notification.
+- **Reopening the app**: everything printed so far is replayed, you won't lose the login prompt or earlier output just by switching away and back.
+- **Permissions**: only Internet access and a notification (for the "running" status) are needed. Neither is a sensitive/dangerous permission requiring a special explanation dialog beyond the one-time system prompts.
+- **Command-line flags** (below) aren't exposed in the Android app. It always listens on the same defaults as Windows (`19132` for the RakNet proxy, `127.0.0.1:8000` for the external tool bridge).
+- **Current limitations**: `/.video` isn't available yet (no Android FFmpeg build bundled), and only 64-bit ARM (`arm64-v8a`) devices are supported.
+
 ## Command-Line Flags
+
+Windows only, the Android app doesn't expose these (see [Android Notes](#android-notes)).
 
 | Flag | Default | Description |
 |---|---|---|
@@ -228,11 +303,13 @@ All commands are typed as `/.name` in Minecraft chat, or just `name` (no `/.`) i
 
 ## Optional Components
 
-### Video playback (FFmpeg)
+### Video playback (FFmpeg, Windows only)
 
 `/.video` renders a video or GIF onto an in-world particle screen by decoding it frame by frame with FFmpeg. The release zip already bundles `bin\ffmpeg.exe`, so this works out of the box. Just drop your own video/GIF files into the `videos/` folder, or pass a direct `http(s)://` URL to `/.video`.
 
 The release zip does **not** bundle any video files, only the FFmpeg binary itself. Supply your own media so you're not redistributing content you don't hold the rights to.
+
+Not available on the Android app yet, there's no Android FFmpeg build bundled with it.
 
 ## Third-Party Components
 
