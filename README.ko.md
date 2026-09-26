@@ -33,7 +33,7 @@ Ender-Proxy는 마인크래프트 베드락 에디션(Bedrock Edition)용 MITM �
 - **월드**: `fastbreak`, `automine`, `nuker`, `chunkloader`.
 - **시각 효과**: `esp`, `xray`, `fullbright`, `tracer`, 인월드 `video` 재생, 커스텀 `skin` 변경.
 - **채팅 도구**: 위장 채팅과 반복 채팅(`say`, `spam`, `faketext`).
-- **외부 도구 연동**: 바닐라 `wsserver`와 호환되는 WebSocket 엔드포인트(`-ws` 플래그)를 자동으로 열어서 별도의 인게임 명령 없이도 외부 도구를 붙일 수 있고, `wssay` / `wsspam` 중계를 위한 Node.js 컴패니언 서버(`wsbridge/`)도 함께 제공됩니다.
+- **외부 도구 연동**: 바닐라 `wsserver`와 호환되는 WebSocket 엔드포인트(`-ws` 플래그)를 자동으로 열어서 별도의 인게임 명령 없이도 외부 도구를 붙일 수 있고, `wssay` / `wsspam` / `whisperwspam` 중계도 별도 런타임 설치 없이 내장되어 있습니다.
 - **커스텀 로컬 리소스팩**: 인게임 HUD 전용으로 자동 적용되며, 서버 자체의 리소스팩과는 무관하게 동작합니다.
 
 ## 요구 사항
@@ -41,7 +41,7 @@ Ender-Proxy는 마인크래프트 베드락 에디션(Bedrock Edition)용 MITM �
 - Windows 10/11, 64비트.
 - Xbox Live에 로그인된 Microsoft/Xbox 계정, 그리고 이미 친구로 등록되어 있거나 본인이 소유한 대상 월드/Realm (Ender-Proxy는 Xbox Live를 통해 세션을 탐색하며, 임의의 서버 IP에 직접 접속하지 않습니다).
 - FFmpeg은 릴리스 zip에 이미 포함되어 있습니다(`bin\ffmpeg.exe`). `/.video` 모듈을 쓰기 위해 따로 설치할 필요가 없습니다.
-- **선택 사항:** `PATH`에 등록된 [Node.js](https://nodejs.org/) 18 이상. 번들된 `wsbridge` 서버(`wssay` / `wsspam` 기능)에만 필요합니다. 이 외의 모든 기능은 Node.js 없이도 동작합니다.
+- 그 외에 따로 설치할 게 없습니다. `wssay` / `wsspam` / `whisperwspam`도 `enderproxy.exe` 안에서 전부 처리되며, Node.js를 비롯한 어떤 별도 런타임도 필요 없습니다.
 
 ## 시작 전에: 윈도우 루프백 예외 설정
 
@@ -78,7 +78,7 @@ CheckNetIsolation LoopbackExempt -d -n="Microsoft.MinecraftUWP_8wekyb3d8bbwe"
 2. 원하는 위치에 압축을 풉니다 (쓰기 권한이 제한된 `C:\Program Files`는 피하세요).
 3. `enderproxy.exe`를 실행합니다.
 
-압축을 푼 폴더 구조를 그대로 유지해야 합니다. `enderproxy.exe`는 `resource_packs/`, `skins/`, `videos/`, `wsbridge/`를 실행 파일 기준 **상대 경로**로 읽으므로, exe만 따로 빼서 다른 폴더로 옮기면 안 됩니다.
+압축을 푼 폴더 구조를 그대로 유지해야 합니다. `enderproxy.exe`는 `resource_packs/`, `skins/`, `videos/`를 실행 파일 기준 **상대 경로**로 읽으므로, exe만 따로 빼서 다른 폴더로 옮기면 안 됩니다.
 
 ## 초보자를 위한 단계별 가이드
 
@@ -138,7 +138,7 @@ Ender-Proxy가 Xbox Live 친구들이 열어둔 활성 베드락 세션 목록�
 | 친구 세션이 하나도 뜨지 않는다 | 친구에게 일시정지 메뉴에서 월드를 "친구" 또는 "친구의 친구"에게 공개해달라고 요청하고, 둘 다 Xbox Live에 로그인되어 있는지 확인하세요. |
 | 윈도우 SmartScreen이 실행을 막는다 | "추가 정보"를 누른 뒤 "실행"을 클릭하세요. 코드 서명이 되어 있지 않은, 개인이 배포하는 실행 파일에서는 흔히 나오는 경고입니다. |
 | `/.video`가 아무 반응이 없다 | `enderproxy.exe` 옆의 `bin\ffmpeg.exe`가 그대로 있는지(`bin` 폴더를 지우지 않았는지) 확인하고, `videos/` 폴더에 영상/GIF 파일을 넣었는지 또는 `http(s)://` 링크를 직접 입력했는지 확인하세요. |
-| `wssay` / `wsspam`이 "연결되지 않음"이라고 뜬다 | [Node.js](https://nodejs.org/)를 설치한 뒤 Ender-Proxy를 다시 실행하면 번들된 `wsbridge` 서버가 자동으로 시작됩니다. 이 기능은 선택 사항이며 다른 명령어와는 무관합니다. |
+| `wssay` / `wsspam` / `whisperwspam`을 써도 채팅에 아무것도 안 뜬다 | 접속 직후라면 몇 초 기다려주세요. 실제 클라이언트가 자체 핸드셰이크를 먼저 끝내야 합니다. 그래도 안 되면 월드에 다시 접속해서 연동이 다시 맺어지게 해주세요. |
 | 로그인 링크/코드가 작동하지 않는다 | 본인의 마인크래프트/Xbox Live 계정과 같은 Microsoft 계정으로 로그인하고 있는지, 그리고 PC 시스템 시계가 정확히 맞춰져 있는지 확인하세요(시계가 틀리면 Microsoft 로그인 자체가 실패할 수 있습니다). |
 
 ## 실행 플래그
@@ -234,15 +234,10 @@ Ender-Proxy가 Xbox Live 친구들이 열어둔 활성 베드락 세션 목록�
 
 릴리스 zip에는 영상 파일 자체는 포함되어 있지 않습니다. 권리가 없는 미디어를 재배포하지 않도록, 각자 준비해서 사용하세요.
 
-### 외부 연동 서버 (wsbridge)
-
-`wssay` / `wsspam`은 번들된 작은 Node.js 서버(`wsbridge/server.js`)를 통해 메시지를 외부로 중계하므로, 외부 도구가 인게임 명령 없이도 구독할 수 있습니다. `PATH`에서 Node.js를 찾으면 자동으로 시작되며, 없어도 Ender-Proxy가 안내 메시지만 출력하고 넘어갈 뿐 다른 기능에는 전혀 영향이 없습니다.
-
 ## 사용된 서드파티 구성 요소
 
 - [sandertv/gophertunnel](https://github.com/sandertv/gophertunnel) (벤더링 및 패치됨): MIT 라이선스
 - [df-mc/dragonfly](https://github.com/df-mc/dragonfly): MIT 라이선스
-- [websockets/ws](https://github.com/websockets/ws) (`wsbridge/`에 번들됨): MIT 라이선스
 - [FFmpeg](https://ffmpeg.org/) (미리 빌드된 바이너리 번들, `bin\ffmpeg.exe`, [gyan.dev](https://www.gyan.dev/ffmpeg/builds/)의 "essentials" 빌드): GNU GPL v3. 해당 소스 코드는 [ffmpeg.org](https://ffmpeg.org/download.html)와 [gyan.dev](https://www.gyan.dev/ffmpeg/builds/)에서 무료로 받을 수 있습니다. 전체 라이선스 원문은 `bin\ffmpeg-LICENSE.txt`에 함께 들어있습니다.
 
 ## 이용 약관 / 면책 조항

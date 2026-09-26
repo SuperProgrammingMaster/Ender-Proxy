@@ -33,7 +33,7 @@ Everything is driven from in-game chat using a `.` command prefix (for example `
 - **World**: `fastbreak`, `automine`, `nuker`, `chunkloader`.
 - **Visual**: `esp`, `xray`, `fullbright`, `tracer`, in-world `video` playback, custom `skin` switching.
 - **Chat tools**: spoofed and looped chat (`say`, `spam`, `faketext`).
-- **External tool bridge**: a vanilla-`wsserver`-compatible WebSocket endpoint (`-ws` flag) so outside tools can attach with no in-game command needed, plus a bundled Node.js companion server (`wsbridge/`) for `wssay` / `wsspam` relaying.
+- **External tool bridge**: a vanilla-`wsserver`-compatible WebSocket endpoint (`-ws` flag) so outside tools can attach with no in-game command needed, plus a built-in relay for `wssay` / `wsspam` / `whisperwspam` that needs no extra runtime to be installed.
 - **Custom local resource pack** for the in-game HUD, applied automatically. It never touches the server's own resource packs.
 
 ## Requirements
@@ -41,7 +41,7 @@ Everything is driven from in-game chat using a `.` command prefix (for example `
 - Windows 10/11, 64-bit.
 - A Microsoft/Xbox Live account signed in to Xbox Live, with the target world or Realm already in your friends list or owned by you. Ender-Proxy discovers sessions through Xbox Live, it does not dial arbitrary server IPs.
 - FFmpeg is bundled in the release zip (`bin\ffmpeg.exe`) for the `/.video` module, so there is nothing extra to install for that.
-- **Optional:** [Node.js](https://nodejs.org/) 18+ on your `PATH`, only needed for the bundled `wsbridge` server behind `wssay` / `wsspam`. Everything else works without it.
+- Nothing else to install. `wssay` / `wsspam` / `whisperwspam` are handled entirely inside `enderproxy.exe`, no Node.js or any other runtime needed.
 
 ## Before You Start: Windows Loopback Exemption
 
@@ -78,7 +78,7 @@ This is a one-time, standard Windows setting used by any local Bedrock proxy or 
 2. Extract it anywhere (avoid `C:\Program Files`, which Windows locks down for writing).
 3. Run `enderproxy.exe`.
 
-The extracted folder must keep its structure. `enderproxy.exe` reads `resource_packs/`, `skins/`, `videos/`, and `wsbridge/` as **relative** paths next to itself, so don't move the exe out of its folder on its own.
+The extracted folder must keep its structure. `enderproxy.exe` reads `resource_packs/`, `skins/`, and `videos/` as **relative** paths next to itself, so don't move the exe out of its folder on its own.
 
 ## Beginner's Step-by-Step Guide
 
@@ -138,7 +138,7 @@ which opens the in-game HUD menu. From there, explore the [Commands](#commands) 
 | No friend sessions are listed | Ask your friend to open their world to "Friends" or "Friends of Friends" in the pause menu, and confirm you're both online on Xbox Live. |
 | Windows SmartScreen blocks the exe | Click "More info" then "Run anyway". This is expected for an independently distributed executable that isn't code-signed. |
 | `/.video` does nothing | Make sure `bin\ffmpeg.exe` still exists next to `enderproxy.exe` (don't delete the `bin` folder), and that you put a video/GIF file into `videos/` or used a direct `http(s)://` link. |
-| `wssay` / `wsspam` say "not connected" | Install [Node.js](https://nodejs.org/) and restart Ender-Proxy so it can auto-start the bundled `wsbridge` server. This is optional and unrelated to every other command. |
+| `wssay` / `wsspam` / `whisperwspam` don't show a message in chat | Give it a few seconds after connecting, the real client needs to finish its own handshake first. If it still doesn't work, rejoin the world so Ender-Proxy can reconnect the bridge. |
 | Login link/code doesn't work | Make sure you're signing in with the same Microsoft account that owns your Minecraft/Xbox Live profile, and that your PC's clock is set correctly (a wrong system clock breaks Microsoft login). |
 
 ## Command-Line Flags
@@ -234,15 +234,10 @@ All commands are typed as `/.name` in Minecraft chat, or just `name` (no `/.`) i
 
 The release zip does **not** bundle any video files, only the FFmpeg binary itself. Supply your own media so you're not redistributing content you don't hold the rights to.
 
-### External bridge (wsbridge)
-
-`wssay` / `wsspam` relay messages out through a small bundled Node.js server (`wsbridge/server.js`) so external tools can subscribe without an in-game command. It starts automatically if Node.js is found on `PATH`. If Node.js is missing, Ender-Proxy prints a notice and simply skips it; every other feature still works.
-
 ## Third-Party Components
 
 - [sandertv/gophertunnel](https://github.com/sandertv/gophertunnel) (vendored, patched): MIT License
 - [df-mc/dragonfly](https://github.com/df-mc/dragonfly): MIT License
-- [websockets/ws](https://github.com/websockets/ws) (bundled in `wsbridge/`): MIT License
 - [FFmpeg](https://ffmpeg.org/) (bundled prebuilt binary, `bin\ffmpeg.exe`, "essentials" build from [gyan.dev](https://www.gyan.dev/ffmpeg/builds/)): GNU GPL v3. The corresponding source is freely available from [ffmpeg.org](https://ffmpeg.org/download.html) and [gyan.dev](https://www.gyan.dev/ffmpeg/builds/). The full license text ships in `bin\ffmpeg-LICENSE.txt`.
 
 ## Terms of Use / Disclaimer
