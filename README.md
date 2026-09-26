@@ -6,7 +6,7 @@
 
 Ender-Proxy is a Minecraft Bedrock Edition (MITM) proxy client, for **Windows and Android**. It sits between your Minecraft client and a joined Xbox Live session (a friend's world or your own Realm), forwards packets transparently, and adds an in-game command system and HUD with movement, combat, world, and visual utility modules, plus an optional bridge for external tools.
 
-Everything is driven from in-game chat using a `.` command prefix (for example `/.fly on`) or from the proxy's own console window (on Android, a plain console screen inside the app, no Termux or separate runtime needed).
+Everything is driven from in-game chat using a `.` command prefix (for example `/.fly on`) or from the proxy's own app: a dark-themed control panel on Windows, and a full app plus an optional floating overlay you can drive without leaving Minecraft on Android (no Termux or separate runtime needed).
 
 > **Disclaimer:** Ender-Proxy works against **server-authoritative movement** (mandatory on current Bedrock Dedicated Servers and Xbox Live friend sessions). It steers the server's own simulation of the player instead of teleporting the client. Some modules (combat automation, movement assistance, world manipulation) may violate the rules of servers or Realms you don't own. Only use it on worlds you own, or where every player involved has agreed to it, and always at your own risk.
 
@@ -19,7 +19,7 @@ Everything is driven from in-game chat using a `.` command prefix (for example `
 - [Windows: Step-by-Step Guide](#windows-step-by-step-guide)
 - [Android: Step-by-Step Guide](#android-step-by-step-guide)
 - [Android Notes](#android-notes)
-- [Command-Line Flags](#command-line-flags)
+- [Settings](#settings)
 - [Commands](#commands)
 - [Optional Components](#optional-components)
 - [Third-Party Components](#third-party-components)
@@ -35,9 +35,9 @@ Everything is driven from in-game chat using a `.` command prefix (for example `
 - **World**: `fastbreak`, `automine`, `nuker`, `chunkloader`.
 - **Visual**: `esp`, `xray`, `fullbright`, `tracer`, in-world `video` playback, custom `skin` switching.
 - **Chat tools**: spoofed and looped chat (`say`, `spam`, `faketext`).
-- **External tool bridge**: a vanilla-`wsserver`-compatible WebSocket endpoint (`-ws` flag) so outside tools can attach with no in-game command needed, plus a built-in relay for `wssay` / `wsspam` / `whisperwspam` that needs no extra runtime to be installed.
+- **External tool bridge**: a vanilla-`wsserver`-compatible WebSocket endpoint (address set in the Settings tab) so outside tools can attach with no in-game command needed, plus a built-in relay for `wssay` / `wsspam` / `whisperwspam` that needs no extra runtime to be installed.
 - **Custom local resource pack** for the in-game HUD, applied automatically. It never touches the server's own resource packs.
-- **Android app**: the same proxy, packaged as a single sideloadable APK with a plain console screen standing in for the Windows console window. No Termux, no separate Android build of Node.js or anything else to install.
+- **Android app**: the same proxy, packaged as a single sideloadable APK with the same Connect / Modules / Console / Settings panel as Windows, plus a draggable floating overlay bubble that expands into that same panel over the top of Minecraft so you never have to alt-tab out. No Termux, no separate Android build of Node.js or anything else to install.
 
 ## Requirements
 
@@ -46,7 +46,7 @@ Everything is driven from in-game chat using a `.` command prefix (for example `
 - Windows 10/11, 64-bit.
 - A Microsoft/Xbox Live account signed in to Xbox Live, with the target world or Realm already in your friends list or owned by you. Ender-Proxy discovers sessions through Xbox Live, it does not dial arbitrary server IPs.
 - FFmpeg is bundled in the release zip (`bin\ffmpeg.exe`) for the `/.video` module, so there is nothing extra to install for that.
-- Nothing else to install. `wssay` / `wsspam` / `whisperwspam` are handled entirely inside `enderproxy.exe`, no Node.js or any other runtime needed.
+- Nothing else to install. `wssay` / `wsspam` / `whisperwspam` are handled entirely inside `enderproxy-gui.exe`, no Node.js or any other runtime needed.
 
 ### Android
 
@@ -62,15 +62,16 @@ Both platforms' files are on the same [Releases](../../releases) page.
 
 1. Grab the latest `Ender-Proxy-<version>-win64.zip`.
 2. Extract it anywhere (avoid `C:\Program Files`, which Windows locks down for writing).
-3. Run `enderproxy.exe`.
+3. Run `enderproxy-gui.exe`.
 
-The extracted folder must keep its structure. `enderproxy.exe` reads `resource_packs/`, `skins/`, and `videos/` as **relative** paths next to itself, so don't move the exe out of its folder on its own.
+The extracted folder must keep its structure. `enderproxy-gui.exe` reads `resource_packs/`, `skins/`, and `videos/` as **relative** paths next to itself, so don't move the exe out of its folder on its own.
 
 ### Android
 
 1. Grab the latest `Ender-Proxy-<version>-android-arm64.apk`.
 2. Open it from your file manager or downloads notification. Android will ask to allow installs from that source the first time, allow it.
 3. Open the app. Unlike Windows, there's no separate setup step needed first, no loopback exemption command to run. Just open it.
+4. After you log in, the app will ask to allow the floating overlay ("draw over other apps"). This is optional: it just lets you expand the same control panel over Minecraft without switching apps. You can decline and use the app's own screen instead, or grant it later from the Settings tab.
 
 The APK bundles the local HUD resource pack and default skins already, they're unpacked automatically the first time the app runs.
 
@@ -117,19 +118,19 @@ Right-click `Ender-Proxy-<version>-win64.zip` and choose "Extract All...". Pick 
 
 ### Step 3: Run the program
 
-Double-click `enderproxy.exe` inside the extracted folder. A console window opens and prints a banner. If Windows SmartScreen shows a blue warning screen (this is normal for a small, unsigned tool), click "More info" and then "Run anyway".
+Double-click `enderproxy-gui.exe` inside the extracted folder. A dark, frameless panel opens (no console window). If Windows SmartScreen shows a blue warning screen (this is normal for a small, unsigned tool), click "More info" and then "Run anyway".
 
 ### Step 4: Sign in with Xbox Live
 
-The console prints a Microsoft login link and a short code. Open that link in your browser, enter the code, and sign in with the same Microsoft account you use in Minecraft. After signing in, you can close the browser tab and return to the console window. Your login is cached in `token_cache.json` so you won't need to repeat this every time (use the `-login` flag if you ever need to switch accounts).
+The panel shows a Microsoft login link and a short code, with a **LOG IN** button. Click it, open the link in your browser, enter the code, and sign in with the same Microsoft account you use in Minecraft. After signing in, switch back to the panel, it detects the login automatically. Your login is cached on disk so you won't need to repeat this every time (use **FORCE LOGIN** in the app if you ever need to switch accounts).
 
 ### Step 5: Pick a session
 
-Ender-Proxy lists active Bedrock sessions among your Xbox Live friends. Type the number of the session you want to join, or follow the prompt if you want to target your own world/Realm instead. If nothing shows up, make sure your friend has actually opened their world to "Friends" or "Friends of Friends" and that you're both signed in.
+On the **Connect** tab, the **Friends** sub-tab lists active Bedrock sessions among your Xbox Live friends. Click **CONNECT** next to the one you want to join, or switch to the **Gamertag**, **LAN**, **Featured**, or **Direct** sub-tab if you want to target something else. If nothing shows up under Friends, make sure your friend has actually opened their world to "Friends" or "Friends of Friends" and that you're both signed in.
 
 ### Step 6: Connect Minecraft to the proxy
 
-Open Minecraft Bedrock yourself, go to **Play → Servers**, and add (or use) a server entry pointing at `127.0.0.1` on port `19132` (or whatever you passed to `-port`). Join that server entry. You should land in your friend's world exactly as if you'd joined it directly, except now the proxy is watching and relaying every packet.
+Open Minecraft Bedrock yourself, go to **Play → Servers**, and add (or use) a server entry pointing at `127.0.0.1` on port `19132` (the default; changeable in the **Settings** tab under "Local RakNet Port" before you connect). Join that server entry. You should land in your friend's world exactly as if you'd joined it directly, except now the proxy is watching and relaying every packet.
 
 ### Step 7: Try your first command
 
@@ -160,41 +161,41 @@ which opens the in-game HUD menu. From there, explore the [Commands](#commands) 
 | Minecraft hangs on "Connecting..." or fails immediately | Redo the [loopback exemption](#before-you-start-windows-loopback-exemption) step, then fully close and reopen Minecraft. |
 | No friend sessions are listed | Ask your friend to open their world to "Friends" or "Friends of Friends" in the pause menu, and confirm you're both online on Xbox Live. |
 | Windows SmartScreen blocks the exe | Click "More info" then "Run anyway". This is expected for an independently distributed executable that isn't code-signed. |
-| `/.video` does nothing | Make sure `bin\ffmpeg.exe` still exists next to `enderproxy.exe` (don't delete the `bin` folder), and that you put a video/GIF file into `videos/` or used a direct `http(s)://` link. |
+| `/.video` does nothing | Make sure `bin\ffmpeg.exe` still exists next to `enderproxy-gui.exe` (don't delete the `bin` folder), and that you put a video/GIF file into `videos/` or used a direct `http(s)://` link. |
 | `wssay` / `wsspam` / `whisperwspam` don't show a message in chat | Give it a few seconds after connecting, the real client needs to finish its own handshake first. If it still doesn't work, rejoin the world so Ender-Proxy can reconnect the bridge. |
 | Login link/code doesn't work | Make sure you're signing in with the same Microsoft account that owns your Minecraft/Xbox Live profile, and that your PC's clock is set correctly (a wrong system clock breaks Microsoft login). |
 
 ## Android: Step-by-Step Guide
 
-Same idea as the Windows guide above, just through the app instead of a console window. There's no loopback exemption step on Android, that's a Windows-only requirement.
+Same idea as the Windows guide above, just through the phone app. There's no loopback exemption step on Android, that's a Windows-only requirement.
 
 ### Step 1: Install the APK
 
 Download `Ender-Proxy-<version>-android-arm64.apk` from [Releases](../../releases) onto your phone and open it. Android will prompt to allow installing from that source the first time (Settings → allow), then installs normally.
 
-### Step 2: Open the app
+### Step 2: Open the app and log in
 
-Tap the Ender-Proxy icon. It opens straight into a plain black console screen and starts the proxy immediately, no separate "start" step. If a notification permission prompt appears, allow it, that's just for the persistent "Ender-Proxy running" notification.
+Tap the Ender-Proxy icon. You'll see a login screen with a Microsoft login link and short code, plus a **LOG IN** button. Open the link in your phone's browser, enter the code, sign in with your Minecraft/Xbox Live Microsoft account, then switch back to the Ender-Proxy app, it detects the login automatically. If a notification permission prompt appears, allow it, that's just for the persistent "Ender-Proxy running" notification.
 
-### Step 3: Sign in with Xbox Live
+### Step 3: Allow the overlay (optional)
 
-Same as Windows: a login link and short code appear on screen. Open the link in your phone's browser, enter the code, sign in with your Minecraft/Xbox Live Microsoft account, then switch back to the Ender-Proxy app.
+Right after logging in, the app asks to allow a floating overlay. This lets you drag a small bubble anywhere on screen and tap it to expand the full control panel over the top of Minecraft, no alt-tabbing needed. You can allow it now, allow it later from the Settings tab, or skip it entirely and just use the app's own screen.
 
 ### Step 4: Pick a session
 
-A list of your Xbox Live friends' active Bedrock sessions appears. Type the number into the text field at the bottom of the screen and tap **Send**, the same as typing into the Windows console.
+On the **Connect** tab, the **Friends** sub-tab lists active Bedrock sessions among your Xbox Live friends. Tap **CONNECT** next to the one you want to join, or switch to the **Gamertag**, **LAN**, **Featured**, or **Direct** sub-tab for something else.
 
 ### Step 5: Connect Minecraft to the proxy
 
-Open Minecraft Bedrock (same phone), go to **Play → Servers**, and add a server pointing at `127.0.0.1` port `19132`. Join it, same as the Windows guide.
+Open Minecraft Bedrock (same phone), go to **Play → Servers**, and add a server pointing at `127.0.0.1` port `19132` (changeable in the **Settings** tab before you connect). Join it, same as the Windows guide.
 
 ### Step 6: Try your first command
 
-In Minecraft chat, type `/.help`, then try `/.pos` or `/.menu`. See the [Commands](#commands) table below for the full list.
+In Minecraft chat, type `/.help`, then try `/.pos` or `/.menu`. See the [Commands](#commands) table below for the full list, or use the **Modules** tab to toggle things on/off with a tap instead of typing commands.
 
 ### Step 7: Stopping it
 
-Closing the app screen, switching to Minecraft, or even swiping Ender-Proxy out of your recent apps does **not** stop it, that's intentional, so it survives while you're playing. To actually stop it, either tap **Stop** in the app, or tap **Stop** on the persistent notification. See [Android Notes](#android-notes) below.
+Closing the app screen, switching to Minecraft, or collapsing the overlay does **not** stop it, that's intentional, so it survives while you're playing. Swiping Ender-Proxy away from your recent apps (fully closing it, not just backgrounding it) **does** stop it automatically and hides the overlay. You can also tap **STOP** in the app or overlay panel, or tap **Stop** on the persistent notification. See [Android Notes](#android-notes) below.
 
 ### Troubleshooting
 
@@ -203,27 +204,28 @@ Closing the app screen, switching to Minecraft, or even swiping Ender-Proxy out 
 | Can't install the APK | Make sure you allowed "install from this source" when prompted. On some phones this is under Settings → Apps → Special access → Install unknown apps, per app (browser or file manager). |
 | No friend sessions are listed | Same as Windows: ask your friend to open their world to "Friends" or "Friends of Friends", confirm you're both online on Xbox Live. |
 | Minecraft can't connect to `127.0.0.1:19132` | Make sure the Ender-Proxy app (or its notification) shows it's still running, and that you typed the port correctly. Unlike Windows there's no loopback exemption to troubleshoot here. |
-| Reopened the app and the screen is blank | Give it a second, it replays everything printed so far. If it's still blank, the proxy may have been stopped, check for the persistent notification. |
+| Overlay bubble doesn't appear, or never asked for permission | Open the app's **Settings** tab and tap **GRANT PERMISSION** under "Floating overlay over game". Some phone makers (e.g. MIUI, ColorOS) hide this under a differently-named "Display over other apps" toggle in their own system settings. |
+| Overlay circle looks squashed or the expanded panel's bottom is cut off | Update to the latest release, this was fixed after the first Android build (the overlay is now sized to fit the screen and Restart/Stop are always visible). |
 | `/.video` does nothing | Expected for now, FFmpeg isn't bundled for Android yet. |
 
 ## Android Notes
 
-- **Stopping the proxy**: it runs as a background (foreground) service on purpose, so it isn't killed while you're alt-tabbed into Minecraft. That means there's no implicit "close the app to stop it" gesture. Use the **Stop** button in the app, or the **Stop** action on its notification.
-- **Reopening the app**: everything printed so far is replayed, you won't lose the login prompt or earlier output just by switching away and back.
-- **Permissions**: only Internet access and a notification (for the "running" status) are needed. Neither is a sensitive/dangerous permission requiring a special explanation dialog beyond the one-time system prompts.
-- **Command-line flags** (below) aren't exposed in the Android app. It always listens on the same defaults as Windows (`19132` for the RakNet proxy, `127.0.0.1:8000` for the external tool bridge).
+- **Stopping the proxy**: it runs as a background (foreground) service on purpose, so it isn't killed while you're alt-tabbed into Minecraft. Backgrounding the app, switching to Minecraft, or collapsing the overlay does not stop it. Swiping it away from Recents (fully closing the app, not just backgrounding it) does stop it and hides the overlay automatically. You can also use the **STOP** button in the app/overlay panel, or the **Stop** action on its notification.
+- **The floating overlay**: a small draggable circle that shows the proxy's status at a glance (a colored ring) and expands, in place, into the exact same Connect/Modules/Console/Settings panel the app itself shows, so you can drive it without leaving Minecraft. Tapping it never switches you back to the app; use the small "open full app" button inside the expanded panel's header for that. Requires the "draw over other apps" permission, requested once after your first login and toggleable any time from the Settings tab.
+- **Permissions**: Internet access, a notification (for the "running" status), and the optional "draw over other apps" permission for the floating overlay. None require a special explanation dialog beyond the one-time system prompts.
+- **Local port and external tool bridge**: unlike the old console build, these are configurable per-connection from the app's own **Settings** tab (same fields as the Windows panel), not fixed at `19132` / `127.0.0.1:8000`, though those remain the defaults.
 - **Current limitations**: `/.video` isn't available yet (no Android FFmpeg build bundled), and only 64-bit ARM (`arm64-v8a`) devices are supported.
 
-## Command-Line Flags
+## Settings
 
-Windows only, the Android app doesn't expose these (see [Android Notes](#android-notes)).
+Both the Windows panel and the Android app (including its overlay) expose the same **Settings** tab instead of command-line flags:
 
-| Flag | Default | Description |
+| Setting | Default | Description |
 |---|---|---|
-| `-login` | off | Force a fresh Xbox Live login, ignoring the cached token |
-| `-logout` | off | Clear the cached token and exit |
-| `-port` | `19132` | Local RakNet port the proxy listens on |
-| `-ws` | `127.0.0.1:8000` | Address to auto-start a vanilla-`wsserver`-compatible WebSocket endpoint on (an empty string disables it) |
+| Local RakNet Port | `19132` | Local port Minecraft connects to on this device |
+| External WS Bridge | `127.0.0.1:8000` | Address for `wssay`/`wsspam`/`whisperwspam` and other external tools; leave blank to disable it |
+| Floating overlay (Android only) | off until granted | Toggles the draggable overlay bubble described above |
+| Log Out | — | Clears the cached Xbox Live login; you'll need to sign in again next time |
 
 ## Commands
 
