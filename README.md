@@ -8,6 +8,8 @@ Ender-Proxy is a Minecraft Bedrock Edition (MITM) proxy client, for **Windows an
 
 Everything is driven from in-game chat using a `.` command prefix (for example `/.fly on`) or from the proxy's own app: a dark-themed control panel on Windows, and a full app plus an optional floating overlay you can drive without leaving Minecraft on Android (no Termux or separate runtime needed).
 
+> **Work in progress:** Ender-Proxy is still early in development. Expect rough edges, and check the [Releases](../../releases) page for the latest fixes before assuming something is broken for good. If you hit a bug, [report it on Discord](https://discord.gg/rDUGPHn47V) so it can get fixed.
+
 > **Disclaimer:** Ender-Proxy works against **server-authoritative movement** (mandatory on current Bedrock Dedicated Servers and Xbox Live friend sessions). It steers the server's own simulation of the player instead of teleporting the client. Some modules (combat automation, movement assistance, world manipulation) may violate the rules of servers or Realms you don't own. Only use it on worlds you own, or where every player involved has agreed to it, and always at your own risk.
 
 ## Contents
