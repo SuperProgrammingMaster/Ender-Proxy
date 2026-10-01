@@ -35,7 +35,7 @@ Everything is driven from in-game chat using a `.` command prefix (for example `
 - **Movement**: `fly`, `speed`, `noclip`, `nofall`, `scaffold`, `blink` / `autoblink`.
 - **Combat**: `killaura`, `multiaura`, `reach`, `autoclick`, `autototem`.
 - **World**: `fastbreak`, `automine`, `nuker`, `chunkloader`.
-- **Visual**: `esp`, `xray`, `fullbright`, `tracer`, in-world `video` playback, custom `skin` switching.
+- **Visual**: `esp`, `xray`, `fullbright`, `tracer`, `derp` (other players see your head spin wildly), `freecam` (fly the camera around while your body stays put), in-world `video` playback, custom `skin` switching.
 - **Chat tools**: spoofed and looped chat (`say`, `spam`, `faketext`).
 - **External tool bridge**: a vanilla-`wsserver`-compatible WebSocket endpoint (address set in the Settings tab) so outside tools can attach with no in-game command needed, plus a built-in relay for `wssay` / `wsspam` / `whisperwspam` that needs no extra runtime to be installed.
 - **Custom local resource pack** for the in-game HUD, applied automatically. It never touches the server's own resource packs.
@@ -283,6 +283,8 @@ All commands are typed as `/.name` in Minecraft chat, or just `name` (no `/.`) i
 | `xray` | Draw 3D boxes around a chosen ore/block type through walls |
 | `fullbright` | See in the dark |
 | `tracer` | Draw lines from you to entities |
+| `derp` | Spin your head and swing your pitch so other players see you look weird (your own screen is unchanged) |
+| `freecam` | Fly the camera around freely while your body stays where it is, then snap back when you turn it off |
 | `skin` | Change your player's skin, visible to others on the server |
 | `video` | Play a video on an in-world particle screen (needs FFmpeg, see below) |
 

@@ -35,7 +35,7 @@ Ender-Proxy는 마인크래프트 베드락 에디션(Bedrock Edition)용 MITM �
 - **이동**: `fly`, `speed`, `noclip`, `nofall`, `scaffold`, `blink` / `autoblink`.
 - **전투**: `killaura`, `multiaura`, `reach`, `autoclick`, `autototem`.
 - **월드**: `fastbreak`, `automine`, `nuker`, `chunkloader`.
-- **시각 효과**: `esp`, `xray`, `fullbright`, `tracer`, 인월드 `video` 재생, 커스텀 `skin` 변경.
+- **시각 효과**: `esp`, `xray`, `fullbright`, `tracer`, `derp`(다른 플레이어에게 내 머리가 미친 듯이 돌아가는 것처럼 보이게), `freecam`(몸은 그대로 두고 카메라만 자유롭게 날아다니기), 인월드 `video` 재생, 커스텀 `skin` 변경.
 - **채팅 도구**: 위장 채팅과 반복 채팅(`say`, `spam`, `faketext`).
 - **외부 도구 연동**: 바닐라 `wsserver`와 호환되는 WebSocket 엔드포인트(설정 탭에서 주소 지정)를 자동으로 열어서 별도의 인게임 명령 없이도 외부 도구를 붙일 수 있고, `wssay` / `wsspam` / `whisperwspam` 중계도 별도 런타임 설치 없이 내장되어 있습니다.
 - **커스텀 로컬 리소스팩**: 인게임 HUD 전용으로 자동 적용되며, 서버 자체의 리소스팩과는 무관하게 동작합니다.
@@ -283,6 +283,8 @@ Windows 패널과 Android 앱(오버레이 포함) 모두 실행 플래그 대�
 | `xray` | 선택한 광물/블록을 벽 너머로 3D 박스로 표시 |
 | `fullbright` | 어두운 곳에서도 밝게 보기 |
 | `tracer` | 나와 엔티티 사이에 선 표시 |
+| `derp` | 머리를 돌리고 피치를 흔들어 다른 플레이어 눈에 이상하게 보이게 함 (내 화면은 그대로) |
+| `freecam` | 몸은 제자리에 두고 카메라만 자유롭게 날아다니기, 끄면 카메라가 몸으로 돌아옴 |
 | `skin` | 다른 플레이어에게도 보이는 내 스킨 변경 |
 | `video` | 인월드 파티클 화면에 영상 재생 (FFmpeg 필요, 아래 참고) |
 
