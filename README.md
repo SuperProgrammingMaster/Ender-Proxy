@@ -34,7 +34,7 @@ Everything is driven from in-game chat using a `.` command prefix (for example `
 - **In-game command menu**: a HUD panel (`/.menu`) plus a full chat command set, all under the `.` prefix.
 - **Movement**: `fly`, `speed`, `noclip`, `nofall`, `scaffold`, `blink` / `autoblink`.
 - **Combat**: `killaura`, `multiaura`, `reach`, `autoclick`, `autototem`.
-- **World**: `fastbreak`, `automine`, `nuker`, `chunkloader`.
+- **World**: `fastbreak`, `automine`, `nuker`, `chunkloader`, `filldupe` (duplicate items).
 - **Visual**: `esp`, `xray`, `fullbright`, `tracer`, `derp` (other players see your head spin wildly), `freecam` (fly the camera around while your body stays put), in-world `video` playback, custom `skin` switching.
 - **Chat tools**: spoofed and looped chat (`say`, `spam`, `faketext`).
 - **External tool bridge**: a vanilla-`wsserver`-compatible WebSocket endpoint (address set in the Settings tab) so outside tools can attach with no in-game command needed, plus a built-in relay for `wssay` / `wsspam` / `whisperwspam` that needs no extra runtime to be installed.
@@ -274,6 +274,7 @@ All commands are typed as `/.name` in Minecraft chat, or just `name` (no `/.`) i
 | `automine` | Continuously mine whatever block is under your crosshair |
 | `nuker` | Break the block you mine and the blocks around it |
 | `chunkloader` | Preload chunks around you |
+| `filldupe` | Duplicate items |
 
 ### Visual
 

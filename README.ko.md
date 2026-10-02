@@ -34,7 +34,7 @@ Ender-Proxy는 마인크래프트 베드락 에디션(Bedrock Edition)용 MITM �
 - **인게임 명령어 메뉴**: HUD 패널(`/.menu`)과 `.` 접두사 기반의 전체 채팅 명령어 세트를 제공합니다.
 - **이동**: `fly`, `speed`, `noclip`, `nofall`, `scaffold`, `blink` / `autoblink`.
 - **전투**: `killaura`, `multiaura`, `reach`, `autoclick`, `autototem`.
-- **월드**: `fastbreak`, `automine`, `nuker`, `chunkloader`.
+- **월드**: `fastbreak`, `automine`, `nuker`, `chunkloader`, `filldupe`(아이템 복사).
 - **시각 효과**: `esp`, `xray`, `fullbright`, `tracer`, `derp`(다른 플레이어에게 내 머리가 미친 듯이 돌아가는 것처럼 보이게), `freecam`(몸은 그대로 두고 카메라만 자유롭게 날아다니기), 인월드 `video` 재생, 커스텀 `skin` 변경.
 - **채팅 도구**: 위장 채팅과 반복 채팅(`say`, `spam`, `faketext`).
 - **외부 도구 연동**: 바닐라 `wsserver`와 호환되는 WebSocket 엔드포인트(설정 탭에서 주소 지정)를 자동으로 열어서 별도의 인게임 명령 없이도 외부 도구를 붙일 수 있고, `wssay` / `wsspam` / `whisperwspam` 중계도 별도 런타임 설치 없이 내장되어 있습니다.
@@ -274,6 +274,7 @@ Windows 패널과 Android 앱(오버레이 포함) 모두 실행 플래그 대�
 | `automine` | 크로스헤어가 향한 블록을 계속 자동 채굴 |
 | `nuker` | 채굴 중인 블록과 주변 블록을 함께 파괴 |
 | `chunkloader` | 주변 청크를 미리 로드 |
+| `filldupe` | 아이템 복사 |
 
 ### 시각 효과
 
