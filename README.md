@@ -30,13 +30,13 @@ Everything is driven from in-game chat using a `.` command prefix (for example `
 
 ## Features
 
-- **Xbox Live friend-session discovery**: logs in with your own Microsoft account and lists active Bedrock sessions among your Xbox Live friends, no server IP needed.
+- **Xbox Live friend-session discovery**: logs in with your own Microsoft account and lists active Bedrock sessions among your Xbox Live friends, no server IP needed. You can also join any Realm you own or belong to, or accept a Realm invite code or `realms.gg` link on the spot.
 - **In-game command menu**: a HUD panel (`/.menu`) plus a full chat command set, all under the `.` prefix.
 - **Movement**: `fly`, `speed`, `noclip`, `nofall`, `scaffold`, `blink` / `autoblink`.
 - **Combat**: `killaura`, `multiaura`, `reach`, `autoclick`, `autototem`.
-- **World**: `fastbreak`, `automine`, `nuker`, `chunkloader`, `filldupe` (duplicate items).
+- **World**: `fastbreak`, `automine`, `nuker`, `filldupe` (duplicate items).
 - **Visual**: `esp`, `xray`, `fullbright`, `tracer`, `derp` (other players see your head spin wildly), `freecam` (fly the camera around while your body stays put), in-world `video` playback, custom `skin` switching.
-- **Chat tools**: spoofed and looped chat (`say`, `spam`, `faketext`).
+- **Chat tools**: chat messages and looped chat (`say`, `spam`).
 - **External tool bridge**: a vanilla-`wsserver`-compatible WebSocket endpoint (address set in the Settings tab) so outside tools can attach with no in-game command needed, plus a built-in relay for `wssay` / `wsspam` / `whisperwspam` that needs no extra runtime to be installed.
 - **Custom local resource pack** for the in-game HUD, applied automatically. It never touches the server's own resource packs.
 - **Android app**: the same proxy, packaged as a single sideloadable APK with the same Connect / Modules / Console / Settings panel as Windows, plus a draggable floating overlay bubble that expands into that same panel over the top of Minecraft so you never have to alt-tab out. No Termux, no separate Android build of Node.js or anything else to install.
@@ -128,7 +128,7 @@ The panel shows a Microsoft login link and a short code, with a **LOG IN** butto
 
 ### Step 5: Pick a session
 
-On the **Connect** tab, the **Friends** sub-tab lists active Bedrock sessions among your Xbox Live friends. Click **CONNECT** next to the one you want to join, or switch to the **Gamertag**, **LAN**, **Featured**, or **Direct** sub-tab if you want to target something else. If nothing shows up under Friends, make sure your friend has actually opened their world to "Friends" or "Friends of Friends" and that you're both signed in.
+On the **Connect** tab, the **Friends** sub-tab lists active Bedrock sessions among your Xbox Live friends. Click **CONNECT** next to the one you want to join, or switch to the **Gamertag**, **LAN**, **Featured**, **Realms**, or **Direct** sub-tab if you want to target something else. The **Realms** sub-tab lists every Realm your account owns or has joined, and also takes a Realm invite code or `realms.gg` link. If nothing shows up under Friends, make sure your friend has actually opened their world to "Friends" or "Friends of Friends" and that you're both signed in.
 
 ### Step 6: Connect Minecraft to the proxy
 
@@ -185,7 +185,7 @@ Right after logging in, the app asks to allow a floating overlay. This lets you 
 
 ### Step 4: Pick a session
 
-On the **Connect** tab, the **Friends** sub-tab lists active Bedrock sessions among your Xbox Live friends. Tap **CONNECT** next to the one you want to join, or switch to the **Gamertag**, **LAN**, **Featured**, or **Direct** sub-tab for something else.
+On the **Connect** tab, the **Friends** sub-tab lists active Bedrock sessions among your Xbox Live friends. Tap **CONNECT** next to the one you want to join, or switch to the **Gamertag**, **LAN**, **Featured**, **Realms**, or **Direct** sub-tab for something else.
 
 ### Step 5: Connect Minecraft to the proxy
 
@@ -273,7 +273,6 @@ All commands are typed as `/.name` in Minecraft chat, or just `name` (no `/.`) i
 | `fastbreak` | Break blocks faster by adding extra mining ticks |
 | `automine` | Continuously mine whatever block is under your crosshair |
 | `nuker` | Break the block you mine and the blocks around it |
-| `chunkloader` | Preload chunks around you |
 | `filldupe` | Duplicate items |
 
 ### Visual
@@ -296,7 +295,6 @@ All commands are typed as `/.name` in Minecraft chat, or just `name` (no `/.`) i
 | `say` | Send a chat message to the server |
 | `spam` | Repeat a chat message (default 10 times, 100 ms apart) |
 | `wspam` | Shortcut for `.spam whisper` |
-| `faketext` | Send a spoofed chat line |
 
 ### External Tool Bridge
 

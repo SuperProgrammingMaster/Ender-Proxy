@@ -30,13 +30,13 @@ Ender-Proxy는 마인크래프트 베드락 에디션(Bedrock Edition)용 MITM �
 
 ## 주요 기능
 
-- **Xbox Live 친구 세션 탐색**: 본인의 Microsoft 계정으로 로그인해서, 서버 IP 없이도 Xbox Live 친구들이 열어둔 베드락 세션을 목록으로 보여줍니다.
+- **Xbox Live 친구 세션 탐색**: 본인의 Microsoft 계정으로 로그인해서, 서버 IP 없이도 Xbox Live 친구들이 열어둔 베드락 세션을 목록으로 보여줍니다. 내가 소유했거나 참여 중인 Realm에 접속하거나, Realm 초대 코드나 `realms.gg` 링크로 바로 참여할 수도 있습니다.
 - **인게임 명령어 메뉴**: HUD 패널(`/.menu`)과 `.` 접두사 기반의 전체 채팅 명령어 세트를 제공합니다.
 - **이동**: `fly`, `speed`, `noclip`, `nofall`, `scaffold`, `blink` / `autoblink`.
 - **전투**: `killaura`, `multiaura`, `reach`, `autoclick`, `autototem`.
-- **월드**: `fastbreak`, `automine`, `nuker`, `chunkloader`, `filldupe`(아이템 복사).
+- **월드**: `fastbreak`, `automine`, `nuker`, `filldupe`(아이템 복사).
 - **시각 효과**: `esp`, `xray`, `fullbright`, `tracer`, `derp`(다른 플레이어에게 내 머리가 미친 듯이 돌아가는 것처럼 보이게), `freecam`(몸은 그대로 두고 카메라만 자유롭게 날아다니기), 인월드 `video` 재생, 커스텀 `skin` 변경.
-- **채팅 도구**: 위장 채팅과 반복 채팅(`say`, `spam`, `faketext`).
+- **채팅 도구**: 채팅 전송과 반복 채팅(`say`, `spam`).
 - **외부 도구 연동**: 바닐라 `wsserver`와 호환되는 WebSocket 엔드포인트(설정 탭에서 주소 지정)를 자동으로 열어서 별도의 인게임 명령 없이도 외부 도구를 붙일 수 있고, `wssay` / `wsspam` / `whisperwspam` 중계도 별도 런타임 설치 없이 내장되어 있습니다.
 - **커스텀 로컬 리소스팩**: 인게임 HUD 전용으로 자동 적용되며, 서버 자체의 리소스팩과는 무관하게 동작합니다.
 - **Android 앱**: 같은 프록시를 APK 하나로 사이드로드할 수 있게 패키징했고, Windows와 동일한 Connect / Modules / Console / Settings 패널에 더해, 마인크래프트 위에 그대로 펼쳐지는 드래그 가능한 플로팅 오버레이 버블까지 있어서 화면 전환 없이 바로 조작할 수 있습니다. Termux도, 별도 Android용 Node.js 빌드도 필요 없습니다.
@@ -128,7 +128,7 @@ PC당 한 번만 하면 됩니다. 위의 [시작 전에](#시작-전에-윈도�
 
 ### 5단계: 세션 선택하기
 
-**Connect** 탭의 **Friends** 서브탭에 Xbox Live 친구들이 열어둔 활성 베드락 세션 목록이 뜹니다. 원하는 세션 옆의 **CONNECT**를 누르거나, 다른 대상을 원하면 **Gamertag**, **LAN**, **Featured**, **Direct** 서브탭으로 전환하세요. Friends 목록에 아무것도 뜨지 않는다면, 친구가 월드를 "친구"나 "친구의 친구"에게 공개했는지, 그리고 둘 다 Xbox Live에 로그인되어 있는지 확인해주세요.
+**Connect** 탭의 **Friends** 서브탭에 Xbox Live 친구들이 열어둔 활성 베드락 세션 목록이 뜹니다. 원하는 세션 옆의 **CONNECT**를 누르거나, 다른 대상을 원하면 **Gamertag**, **LAN**, **Featured**, **Realms**, **Direct** 서브탭으로 전환하세요. **Realms** 서브탭에는 내 계정이 소유했거나 참여 중인 모든 Realm이 나열되며, Realm 초대 코드나 `realms.gg` 링크로도 바로 참여할 수 있습니다. Friends 목록에 아무것도 뜨지 않는다면, 친구가 월드를 "친구"나 "친구의 친구"에게 공개했는지, 그리고 둘 다 Xbox Live에 로그인되어 있는지 확인해주세요.
 
 ### 6단계: 마인크래프트를 프록시에 연결하기
 
@@ -185,7 +185,7 @@ Ender-Proxy 아이콘을 탭합니다. Microsoft 로그인 링크와 짧은 코�
 
 ### 4단계: 세션 선택하기
 
-**Connect** 탭의 **Friends** 서브탭에 Xbox Live 친구들이 열어둔 활성 베드락 세션 목록이 뜹니다. 원하는 세션 옆의 **CONNECT**를 탭하거나, 다른 대상을 원하면 **Gamertag**, **LAN**, **Featured**, **Direct** 서브탭으로 전환하세요.
+**Connect** 탭의 **Friends** 서브탭에 Xbox Live 친구들이 열어둔 활성 베드락 세션 목록이 뜹니다. 원하는 세션 옆의 **CONNECT**를 탭하거나, 다른 대상을 원하면 **Gamertag**, **LAN**, **Featured**, **Realms**, **Direct** 서브탭으로 전환하세요.
 
 ### 5단계: 마인크래프트를 프록시에 연결하기
 
@@ -273,7 +273,6 @@ Windows 패널과 Android 앱(오버레이 포함) 모두 실행 플래그 대�
 | `fastbreak` | 채굴 틱을 추가해 블록을 더 빠르게 파괴 |
 | `automine` | 크로스헤어가 향한 블록을 계속 자동 채굴 |
 | `nuker` | 채굴 중인 블록과 주변 블록을 함께 파괴 |
-| `chunkloader` | 주변 청크를 미리 로드 |
 | `filldupe` | 아이템 복사 |
 
 ### 시각 효과
@@ -296,7 +295,6 @@ Windows 패널과 Android 앱(오버레이 포함) 모두 실행 플래그 대�
 | `say` | 서버에 채팅 메시지 전송 |
 | `spam` | 채팅 메시지 반복 전송 (기본 10회, 100ms 간격) |
 | `wspam` | `.spam whisper`의 축약형 |
-| `faketext` | 위장된 채팅 라인 전송 |
 
 ### 외부 도구 연동
 
