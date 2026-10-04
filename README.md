@@ -286,6 +286,8 @@ All commands are typed as `/.name` in Minecraft chat, or just `name` (no `/.`) i
 | `derp` | Spin your head and swing your pitch so other players see you look weird (your own screen is unchanged) |
 | `freecam` | Fly the camera around freely while your body stays where it is, then snap back when you turn it off |
 | `skin` | Change your player's skin, visible to others on the server |
+| `invisible` | Switch to an invisible skin with your armor hidden (`/skin reset` to undo) |
+| `kickall` | Switch to a crash skin with your armor hidden (`/skin reset` to undo) |
 | `video` | Play a video on an in-world particle screen (needs FFmpeg, see below) |
 
 ### Chat
