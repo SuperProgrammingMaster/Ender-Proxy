@@ -33,7 +33,7 @@ Everything is driven from in-game chat using a `.` command prefix (for example `
 - **Xbox Live friend-session discovery**: logs in with your own Microsoft account and lists active Bedrock sessions among your Xbox Live friends, no server IP needed. You can also join any Realm you own or belong to, or accept a Realm invite code or `realms.gg` link on the spot.
 - **In-game command menu**: a HUD panel (`/.menu`) plus a full chat command set, all under the `.` prefix.
 - **Movement**: `fly`, `speed`, `noclip`, `nofall`, `scaffold`, `blink` / `autoblink`.
-- **Combat**: `killaura`, `multiaura`, `reach`, `autoclick`, `autototem`.
+- **Combat**: `killaura`, `multiaura`, `reach`, `autoclick`, `autototem`, `antikb` (cancel knockback, server-side too).
 - **World**: `fastbreak`, `automine`, `nuker`, `filldupe` (duplicate items).
 - **Visual**: `esp`, `xray`, `fullbright`, `tracer`, `derp` (other players see your head spin wildly), `freecam` (fly the camera around while your body stays put), in-world `video` playback, custom `skin` switching.
 - **Chat tools**: chat messages and looped chat (`say`, `spam`).
@@ -253,6 +253,7 @@ All commands are typed as `/.name` in Minecraft chat, or just `name` (no `/.`) i
 | `reach` | Extend your manual attack reach |
 | `autoclick` | Auto-click whatever is in your crosshair |
 | `autototem` | Keep a Totem of Undying equipped |
+| `antikb` | Cancel knockback, on the server too (a hit still shoves you about a block before you are pulled back) |
 
 ### Movement
 

@@ -33,7 +33,7 @@ Ender-Proxy는 마인크래프트 베드락 에디션(Bedrock Edition)용 MITM �
 - **Xbox Live 친구 세션 탐색**: 본인의 Microsoft 계정으로 로그인해서, 서버 IP 없이도 Xbox Live 친구들이 열어둔 베드락 세션을 목록으로 보여줍니다. 내가 소유했거나 참여 중인 Realm에 접속하거나, Realm 초대 코드나 `realms.gg` 링크로 바로 참여할 수도 있습니다.
 - **인게임 명령어 메뉴**: HUD 패널(`/.menu`)과 `.` 접두사 기반의 전체 채팅 명령어 세트를 제공합니다.
 - **이동**: `fly`, `speed`, `noclip`, `nofall`, `scaffold`, `blink` / `autoblink`.
-- **전투**: `killaura`, `multiaura`, `reach`, `autoclick`, `autototem`.
+- **전투**: `killaura`, `multiaura`, `reach`, `autoclick`, `autototem`, `antikb`(서버 쪽 넉백까지 취소).
 - **월드**: `fastbreak`, `automine`, `nuker`, `filldupe`(아이템 복사).
 - **시각 효과**: `esp`, `xray`, `fullbright`, `tracer`, `derp`(다른 플레이어에게 내 머리가 미친 듯이 돌아가는 것처럼 보이게), `freecam`(몸은 그대로 두고 카메라만 자유롭게 날아다니기), 인월드 `video` 재생, 커스텀 `skin` 변경.
 - **채팅 도구**: 채팅 전송과 반복 채팅(`say`, `spam`).
@@ -253,6 +253,7 @@ Windows 패널과 Android 앱(오버레이 포함) 모두 실행 플래그 대�
 | `reach` | 수동 공격 사거리 확장 |
 | `autoclick` | 크로스헤어에 있는 대상을 자동 클릭 |
 | `autototem` | 언데드 토템을 자동으로 계속 장착 |
+| `antikb` | 서버 쪽까지 넉백을 취소 (맞으면 약 1블록 밀렸다가 원위치로 돌아옴) |
 
 ### 이동
 
