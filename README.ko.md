@@ -226,6 +226,7 @@ Windows 패널과 Android 앱(오버레이 포함) 모두 실행 플래그 대�
 |---|---|---|
 | Local RakNet Port | `19132` | 이 기기에서 마인크래프트가 접속할 로컬 포트 |
 | External WS Bridge | `127.0.0.1:8000` | `wssay`/`wsspam`/`whisperwspam`과 외부 도구용 주소. 비워두면 비활성화 |
+| Ignore Resource Packs | `off` | 서버 리소스팩 다운로드를 건너뛰고 바닐라 에셋으로 즉시 접속 |
 | Floating overlay (Android 전용) | 권한 허용 전까지 off | 위에서 설명한 드래그 가능 오버레이 버블 켜고 끄기 |
 | Log Out | — | 캐시된 Xbox Live 로그인 정보 삭제, 다음에 다시 로그인해야 함 |
 

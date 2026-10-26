@@ -226,6 +226,7 @@ Both the Windows panel and the Android app (including its overlay) expose the sa
 |---|---|---|
 | Local RakNet Port | `19132` | Local port Minecraft connects to on this device |
 | External WS Bridge | `127.0.0.1:8000` | Address for `wssay`/`wsspam`/`whisperwspam` and other external tools; leave blank to disable it |
+| Ignore Resource Packs | `off` | Skip downloading server resource packs and connect immediately using vanilla assets |
 | Floating overlay (Android only) | off until granted | Toggles the draggable overlay bubble described above |
 | Log Out | — | Clears the cached Xbox Live login; you'll need to sign in again next time |
 
